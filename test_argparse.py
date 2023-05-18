@@ -1,9 +1,9 @@
-class ArgumentParser:
+class ArgParser:
 
     @staticmethod
     def parse_args(input_data):
-        first_arg = None
-        second_arg = None
+        first_arg = ""
+        second_arg = ""
         args = input_data.split(' ')
         command = args[0]
         if len(args) == 2:
@@ -13,7 +13,3 @@ class ArgumentParser:
             second_arg = args[2]
 
         return command, first_arg, second_arg
-
-
-argprs = ArgumentParser
-print(argprs.parse_args("add key1 "))

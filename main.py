@@ -1,6 +1,8 @@
+import command_handler
+
 
 def main():
-    pass
+    command_handler.run()
 
 
 if __name__ == '__main__':

@@ -24,11 +24,8 @@ class KeyValueStorage:
     def __len__(self):
         return len(self.data)
 
-    def __repr__(self):
-        return str(self.data)
-
     def save(self):
-        with open(self.filename, 'w') as f:
+        with open(f"{self.filename}.json", 'w') as f:
             json.dump(self.data, f)
 
     def load(self):
@@ -36,3 +33,14 @@ class KeyValueStorage:
             self.save()
         with open(f"{self.filename}.json", "r") as f:
             self.data = json.load(f)
+
+    @staticmethod
+    def help():
+        print("Available commands:")
+        print("     1. add {key} {value} - adds a row key value to the storage")
+        print("     2. get {key} - gets a value by the key")
+        print("     3. del {key} - deletes a row key value to the storage")
+        print("     4. all - shows all key values ")
+        print("     5. len - count of key values")
+        print("     6. save - saves added information")
+        print("     7. exit - program exit")
