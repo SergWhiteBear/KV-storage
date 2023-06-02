@@ -1,46 +1,40 @@
-import json
-import os
+import sqlite3
 
 
 class KeyValueStorage:
-    def __init__(self, filename):
-        self.filename = filename
-        self.data = {}
-        try:
-            with open(filename, 'r') as f:
-                self.data = json.load(f)
-        except FileNotFoundError:
-            pass
+    def __init__(self, storage_name, db_file='KV-storage'):
+        self.storage_name = storage_name
+        self.connection = sqlite3.connect(db_file)
+        self.cursor = self.connection.cursor()
+        self.cursor.execute(f"CREATE TABLE IF NOT EXISTS {self.storage_name} (key TEXT PRIMARY KEY, value TEXT)")
 
-    def __getitem__(self, key):
-        return self.data[key]
+    def close_conn(self):
+        self.connection.close()
 
     def __setitem__(self, key, value):
-        self.data[key] = value
+        self.cursor.execute(f"INSERT OR REPLACE INTO {self.storage_name} (key, value) VALUES (?, ?)", (key, value))
+        self.connection.commit()
+
+    def __getitem__(self, key):
+        self.cursor.execute(f"SELECT value FROM {self.storage_name} WHERE key=?", (key,))
+        result = self.cursor.fetchone()
+        if result:
+            return result[0]
+        else:
+            raise KeyError(key)
 
     def __delitem__(self, key):
-        del self.data[key]
+        self.cursor.execute(f"DELETE FROM {self.storage_name} WHERE key=?", (key,))
+        self.connection.commit()
 
-    def __len__(self):
-        return len(self.data)
+    def get_all_keys(self):
+        self.cursor.execute(f"SELECT key FROM {self.storage_name}")
+        return [row[0] for row in self.cursor.fetchall()]
 
-    def save(self):
-        with open(f"{self.filename}.json", 'w') as f:
-            json.dump(self.data, f)
-
-    def load(self):
-        if not os.path.exists(f"{self.filename}.json"):
-            self.save()
-        with open(f"{self.filename}.json", "r") as f:
-            self.data = json.load(f)
-
-    @staticmethod
-    def help():
-        print("Available commands:")
-        print("     1. add {key} {value} - adds a row key value to the storage")
-        print("     2. get {key} - gets a value by the key")
-        print("     3. del {key} - deletes a row key value to the storage")
-        print("     4. all - shows all key values ")
-        print("     5. len - count of key values")
-        print("     6. save - saves added information")
-        print("     7. exit - program exit")
+    def search_value(self, value):
+        self.cursor.execute(f"SELECT key FROM {self.storage_name} WHERE value=?", (value,))
+        result = self.cursor.fetchone()
+        if result:
+            return result[0]
+        else:
+            raise ValueError(value)
