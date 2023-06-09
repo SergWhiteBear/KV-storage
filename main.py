@@ -2,6 +2,7 @@ import argparse
 from storage import KeyValueStorage
 from interactive_mode import interactive_mode
 
+
 def main():
     parser = argparse.ArgumentParser(description='key-value storage')
     parser.add_argument(
@@ -57,7 +58,7 @@ def main():
     elif args.add:
         for i in range(0, len(args.add), 2):
             key = args.add[i]
-            value = args.add[i+1]
+            value = args.add[i + 1]
             storage[key] = value
             print(f"Set '{key}' to '{value}'.")
     elif args.delete:

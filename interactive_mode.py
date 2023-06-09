@@ -14,8 +14,8 @@ def interactive_mode(storage_name):
                     value = args[i + 1]
                     storage[key] = value
                     print(f"Set '{key}' to '{value}'.")
-            except:
-                print("Error")
+            except IndexError:
+                print("Given 1 argument expect 2")
         elif command == "get":
             key = input("Enter key:")
             try:
