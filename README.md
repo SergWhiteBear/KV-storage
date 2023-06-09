@@ -4,13 +4,20 @@
 - Сажин Сергей
 
 ## Описание
-Реализация хранилище «ключ-значение» с операциями добавления пары ключ/значение и получения (списка) значений при помощи базы данных SQL
+Реализация хранилища «ключ-значение» с операциями добавления пары ключ/значение и получения (списка) значений
+
+## Requirements
+* Python >3.9 
+
 
 ## Запуск
-Запуск: `> main.py [-h] [--get key] [--add key [value ...]] [--delete key] [--keys] [--search value] [--show] filename`
+Запуск: `> usage: main.py [-h] [--get key] [--add key [value ...]] [--delete key] [--keys] [--search value] [--show] [--interactive] filename
+`
 
-Отображение справки:   
+### Отображение справки:   
 `> py main.py -h`  
+### Запуск в интерактивном режиме:   
+`> py main.py filename --interactive`  
 
 ## Задачи:
 - [x] Добавление сразу нескольких пар ключ/значение за один запуск
@@ -26,7 +33,8 @@
 
 
 ## Пример работы:
-![alt text](screens/kv.png)
+![alt text](screens/Screenshot_1.png)
+## Пример работы с интерактивным режимом:
+![alt text](screens/Screenshot_2.png)
 
-Ссылка на видео демонстрацию:
-https://youtu.be/xwkXkbWRV3I
+
