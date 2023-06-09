@@ -1,6 +1,6 @@
 import argparse
 from storage import KeyValueStorage
-
+from interactive_mode import interactive_mode
 
 def main():
     parser = argparse.ArgumentParser(description='key-value storage')
@@ -39,6 +39,11 @@ def main():
         action='store_true',
         help='show all rows'
     )
+    parser.add_argument(
+        '--interactive',
+        action='store_true',
+        help='interactive mode'
+    )
     args = parser.parse_args()
 
     storage = KeyValueStorage(args.filename)
@@ -71,6 +76,8 @@ def main():
     elif args.show:
         for key in storage.get_all_keys():
             print(f"{key} -> {storage[key]}")
+    elif args.interactive:
+        interactive_mode(args.filename)
     else:
         parser.print_help()
 
